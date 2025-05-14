@@ -4,9 +4,23 @@ import styled from 'styled-components';
 import { FaMedal } from 'react-icons/fa';
 
 const Wrapper = styled.div`
-  margin: 2rem 0;
-  width: 100%;
-`;
+    margin: 2rem auto;
+    max-width: 1200px;
+    padding: 2rem;
+    background: linear-gradient(135deg, rgba(26, 26, 46, 0.9) 0%, rgba(22, 33, 62, 0.9) 100%);
+    border: 2px solid #00ffff;
+    border-radius: 12px;
+    box-shadow: 0 0 20px rgba(0, 255, 255, 0.3);
+    position: relative;
+    overflow: hidden;
+    font-family: 'Orbitron', sans-serif;
+    color: #e0e0e0;
+  
+    @media (max-width: 768px) {
+      margin: 1rem;
+      padding: 1rem;
+    }
+  `;
 
 const Title = styled.h2`
   font-size: 1.75rem;

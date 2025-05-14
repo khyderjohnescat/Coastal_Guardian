@@ -1,12 +1,24 @@
 import React, { useState, useEffect } from 'react';
 import styled from 'styled-components';
-import Leaderboard from '../components/Leaderboard';
 
+// Styled components for LeaderboardPage
 const Container = styled.div`
-  padding: 2rem;
-  text-align: center;
+  margin: 2rem;
   max-width: 1200px;
-  margin: 0 auto;
+  padding: 2rem;
+  background: linear-gradient(135deg, rgba(26, 26, 46, 0.9) 0%, rgba(22, 33, 62, 0.9) 100%);
+  border: 2px solid #00ffff;
+  border-radius: 12px;
+  box-shadow: 0 0 20px rgba(0, 255, 255, 0.3);
+  position: relative;
+  overflow: hidden;
+  font-family: 'Orbitron', sans-serif;
+  color: #e0e0e0;
+
+  @media (max-width: 768px) {
+    margin: 1rem;
+    padding: 1rem;
+  }
 `;
 
 const SectionWrapper = styled.div`
@@ -19,6 +31,47 @@ const Section = styled.div`
   flex: 1;
 `;
 
+// Leaderboard Component
+const LeaderboardContainer = styled.div`
+  margin-bottom: 2rem;
+`;
+
+const LeaderboardTitle = styled.h2`
+  color: #e0e0e0;
+  font-size: 1.5rem;
+  margin-bottom: 1rem;
+  text-align: center;
+`;
+
+const LeaderboardItem = styled.div`
+  display: flex;
+  justify-content: space-between;
+  padding: 1rem;
+  background: rgba(0, 255, 255, 0.1);
+  border-radius: 8px;
+  margin-bottom: 0.5rem;
+  color: ${({ isTop }) => (isTop ? '#fff' : '#e0e0e0')};
+`;
+
+function Leaderboard({ title, items }) {
+  return (
+    <LeaderboardContainer>
+      <LeaderboardTitle>{title}</LeaderboardTitle>
+      {items.map((item, index) => (
+        <LeaderboardItem key={item.id || item.name} isTop={index === 0}>
+          <span>
+            {index + 1}. {item.name}
+          </span>
+          <span>
+            {item.points} points {item.level && `(${item.level})`}
+          </span>
+        </LeaderboardItem>
+      ))}
+    </LeaderboardContainer>
+  );
+}
+
+// LeaderboardPage Component
 function LeaderboardPage() {
   const [users, setUsers] = useState([]);
   const [teams, setTeams] = useState([]);
@@ -46,7 +99,7 @@ function LeaderboardPage() {
 
   return (
     <Container>
-      <h1>Global Leaderboards</h1>
+      <h1 style={{ textAlign: 'center', color: '#fff' }}>Global Leaderboards</h1>
       <SectionWrapper>
         <Section>
           <Leaderboard title="Top Players" items={users} />

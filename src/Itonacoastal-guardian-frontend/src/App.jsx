@@ -1,5 +1,6 @@
-import { BrowserRouter as Router, Route, Routes } from 'react-router-dom';
+import { BrowserRouter as Router, Route, Routes, Navigate } from 'react-router-dom';
 import styled from 'styled-components';
+import { useContext } from 'react';
 import Sidebar from './components/Sidebar';
 import Profile from './pages/Profile';
 import Events from './pages/Events';
@@ -7,6 +8,9 @@ import Rewards from './pages/Rewards';
 import Admin from './pages/Admin';
 import Leaderboard from './pages/Leaderboard';
 import GlobalStyles from './styles/GlobalStyles';
+import Dashboard from './pages/Dashboard';
+import Login from './pages/Login';
+import { AuthProvider, AuthContext } from './context/AuthContext';
 
 // Main content container to prevent overlap with sidebar
 const MainContent = styled.main`
@@ -21,21 +25,46 @@ const MainContent = styled.main`
   }
 `;
 
+// Protected Route component to guard authenticated routes
+function ProtectedRoute({ children }) {
+  const { isAuthenticated } = useContext(AuthContext);
+
+  if (!isAuthenticated) {
+    return <Navigate to="/login" replace />;
+  }
+
+  return children;
+}
+
 function App() {
   return (
-    <Router>
-      <GlobalStyles />
-      <Sidebar />
-      <MainContent>
+    <AuthProvider>
+      <Router>
+        <GlobalStyles />
         <Routes>
-          <Route path="/" element={<Profile />} />
-          <Route path="/events" element={<Events />} />
-          <Route path="/rewards" element={<Rewards />} />
-          <Route path="/admin" element={<Admin />} />
-          <Route path="/leaderboard" element={<Leaderboard />} />
+          <Route path="/login" element={<Login />} />
+          <Route
+            path="/*"
+            element={
+              <ProtectedRoute>
+                <Sidebar />
+                <MainContent>
+                  <Routes>
+                    <Route path="/" element={<Dashboard />} />
+                    <Route path="/profile" element={<Profile />} />
+                    <Route path="/events" element={<Events />} />
+                    <Route path="/rewards" element={<Rewards />} />
+                    <Route path="/admin" element={<Admin />} />
+                    <Route path="/leaderboard" element={<Leaderboard />} />
+                  </Routes>
+                </MainContent>
+              </ProtectedRoute>
+            }
+          />
         </Routes>
-      </MainContent>
-    </Router>
+      </Router>
+    </AuthProvider>
   );
 }
+
 export default App;
