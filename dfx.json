@@ -1,0 +1,26 @@
+{
+  "canisters": {
+    "Itonacoastal-guardian-backend": {
+      "main": "src/Itonacoastal-guardian-backend/main.mo",
+      "type": "motoko"
+    },
+    "Itonacoastal-guardian-frontend": {
+      "dependencies": [
+        "Itonacoastal-guardian-backend"
+      ],
+      "source": [
+        "src/Itonacoastal-guardian-frontend/dist"
+      ],
+      "type": "assets",
+      "workspace": "Itonacoastal-guardian-frontend"
+    }
+  },
+  "defaults": {
+    "build": {
+      "args": "",
+      "packtool": ""
+    }
+  },
+  "output_env_file": ".env",
+  "version": 1
+}
