@@ -1,8 +1,15 @@
 import React, { useState, useContext } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
-import styled from 'styled-components';
+import styled, { keyframes } from 'styled-components';
 import { FaBars, FaTimes } from 'react-icons/fa';
 import { AuthContext } from '../context/AuthContext';
+
+// Keyframe for gradient animation
+const gradientAnimation = keyframes`
+  0% { background-position: 0% 50%; }
+  50% { background-position: 100% 50%; }
+  100% { background-position: 0% 50%; }
+`;
 
 // Sidebar container with fixed positioning
 const SidebarContainer = styled.div`
@@ -11,13 +18,16 @@ const SidebarContainer = styled.div`
   left: 0;
   width: 250px;
   height: 100vh;
-  background: linear-gradient(180deg, #1a1a2e 0%, #16213e 100%);
+  background: linear-gradient(180deg, rgba(59, 7, 100, 0.9), rgba(30, 58, 138, 0.9));
+  background-size: 200% 200%;
+  animation: ${gradientAnimation} 15s ease infinite;
   padding: 2rem 1rem;
   display: flex;
   flex-direction: column;
   gap: 1.5rem;
-  box-shadow: 4px 0 12px rgba(0, 255, 255, 0.2);
-  border-right: 2px solid rgba(0, 255, 255, 0.3);
+  border-right: 2px solid #a855f7; /* Purple for NFT vibe */
+  box-shadow: 4px 0 12px rgba(168, 85, 247, 0.4);
+  backdrop-filter: blur(6px);
   z-index: 1000;
   transform: ${({ isOpen }) => (isOpen ? 'translateX(0)' : 'translateX(-100%)')};
   transition: transform 0.3s ease-in-out;
@@ -52,14 +62,15 @@ const HamburgerButton = styled.button`
   left: 1rem;
   background: none;
   border: none;
-  color: #00ffff;
+  color: #a855f7;
   font-size: 2rem;
   cursor: pointer;
   z-index: 1001;
   transition: all 0.3s ease;
 
   &:hover {
-    text-shadow: 0 0 10px rgba(0, 255, 255, 0.5);
+    color: #ec4899;
+    text-shadow: 0 0 10px rgba(236, 72, 153, 0.7);
   }
 
   @media (min-width: 769px) {
@@ -82,9 +93,9 @@ const SidebarLink = styled(Link)`
   letter-spacing: 1px;
 
   &:hover {
-    color: #00ffff;
+    color: #ec4899;
     transform: translateX(5px);
-    box-shadow: 0 0 15px rgba(0, 255, 255, 0.5), 0 0 5px rgba(0, 255, 255, 0.3);
+    box-shadow: 0 0 15px rgba(236, 72, 153, 0.5), 0 0 5px rgba(236, 72, 153, 0.3);
   }
 
   &:after {
@@ -94,7 +105,7 @@ const SidebarLink = styled(Link)`
     left: 50%;
     width: 0;
     height: 2px;
-    background: #00ffff;
+    background: #ec4899;
     transition: all 0.3s ease;
     transform: translateX(-50%);
   }
@@ -104,12 +115,12 @@ const SidebarLink = styled(Link)`
   }
 
   &.active {
-    color: #00ffff;
-    background: rgba(0, 255, 255, 0.1);
+    color: #ec4899;
+    background: rgba(168, 85, 247, 0.2);
   }
 `;
 
-// Logout button styled to match neon theme with red accent
+// Logout button styled to match neon theme
 const LogoutButton = styled.button`
   color: #e0e0e0;
   background: none;
@@ -127,9 +138,9 @@ const LogoutButton = styled.button`
   text-align: left;
 
   &:hover {
-    color: #ff4d4d;
+    color: #ec4899;
     transform: translateX(5px);
-    box-shadow: 0 0 15px rgba(255, 77, 77, 0.5), 0 0 5px rgba(255, 77, 77, 0.3);
+    box-shadow: 0 0 15px rgba(236, 72, 153, 0.5), 0 0 5px rgba(236, 72, 153, 0.3);
   }
 
   &:after {
@@ -139,7 +150,7 @@ const LogoutButton = styled.button`
     left: 50%;
     width: 0;
     height: 2px;
-    background: #ff4d4d;
+    background: #ec4899;
     transition: all 0.3s ease;
     transform: translateX(-50%);
   }
@@ -156,7 +167,7 @@ const GlowEffect = styled.div`
   left: 0;
   width: 100%;
   height: 100%;
-  background: radial-gradient(circle, rgba(0, 255, 255, 0.15) 0%, transparent 70%);
+  background: radial-gradient(circle, rgba(168, 85, 247, 0.15) 0%, transparent 70%);
   pointer-events: none;
   z-index: -1;
 `;
@@ -168,8 +179,11 @@ const SidebarHeader = styled.div`
 
   h1 {
     font-size: 1.8rem;
-    color: #00ffff;
-    text-shadow: 0 0 8px rgba(0, 255, 255, 0.5);
+    color: transparent;
+    background: linear-gradient(to right, #a855f7, #ec4899);
+    -webkit-background-clip: text;
+    background-clip: text;
+    text-shadow: 0 0 8px rgba(168, 85, 247, 0.7);
     text-transform: uppercase;
     letter-spacing: 2px;
   }
@@ -213,16 +227,16 @@ function Sidebar() {
           Profile
         </SidebarLink>
         <SidebarLink to="/events" className={({ isActive }) => (isActive ? 'active' : '')} onClick={toggleSidebar}>
-          Events
+          NFT Events
         </SidebarLink>
         <SidebarLink to="/rewards" className={({ isActive }) => (isActive ? 'active' : '')} onClick={toggleSidebar}>
-          Rewards
+          NFT Rewards
         </SidebarLink>
         <SidebarLink to="/leaderboard" className={({ isActive }) => (isActive ? 'active' : '')} onClick={toggleSidebar}>
-          Leaderboard
+          NFT Leaderboard
         </SidebarLink>
         <SidebarLink to="/admin" className={({ isActive }) => (isActive ? 'active' : '')} onClick={toggleSidebar}>
-          Admin
+          Manage NFT Events
         </SidebarLink>
         <LogoutButton onClick={handleLogout} aria-label="Log out">Logout</LogoutButton>
       </SidebarContainer>

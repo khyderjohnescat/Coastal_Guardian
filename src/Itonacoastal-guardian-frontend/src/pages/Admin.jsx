@@ -13,7 +13,6 @@ function Admin() {
 
   return (
     <Container>
-      <h1>Admin Dashboard</h1>
       {isAdmin ? <AdminDashboard /> : <p>Access Denied. Contact an administrator.</p>}
     </Container>
   );

@@ -10,6 +10,7 @@ import Leaderboard from './pages/Leaderboard';
 import GlobalStyles from './styles/GlobalStyles';
 import Dashboard from './pages/Dashboard';
 import Login from './pages/Login';
+import Register from './pages/Register';
 import { AuthProvider, AuthContext } from './context/AuthContext';
 
 // Main content container to prevent overlap with sidebar
@@ -43,6 +44,8 @@ function App() {
         <GlobalStyles />
         <Routes>
           <Route path="/login" element={<Login />} />
+          <Route path="/register" element={<Register />} />
+
           <Route
             path="/*"
             element={

@@ -1,48 +1,38 @@
+// context/AuthContext.js
 import { createContext, useState, useEffect } from 'react';
 
 export const AuthContext = createContext();
 
-export function AuthProvider({ children }) {
-  const [isAuthenticated, setIsAuthenticated] = useState(false);
-  const [isLoading, setIsLoading] = useState(true);
+export const AuthProvider = ({ children }) => {
+  const [isAuthenticated, setIsAuthenticated] = useState(() => {
+    // Initialize from localStorage
+    return localStorage.getItem('isAuthenticated') === 'true';
+  });
+  const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    const checkAuth = async () => {
-      try {
-        const token = localStorage.getItem('authToken');
-        if (token) {
-          setIsAuthenticated(true);
-        }
-      } catch (error) {
-        console.error('Auth check failed:', error);
-      } finally {
-        setIsLoading(false);
-      }
-    };
-    checkAuth();
+    setLoading(false);
   }, []);
 
-  const login = async (email, password) => {
-    try {
-      if (email && password) {
-        localStorage.setItem('authToken', 'demo-token');
-        setIsAuthenticated(true);
-        return true;
-      }
-      throw new Error('Invalid credentials');
-    } catch (error) {
-      throw error;
-    }
+  const login = (username) => {
+    localStorage.setItem('isAuthenticated', 'true');
+    localStorage.setItem('username', username);
+    setIsAuthenticated(true);
   };
 
   const logout = () => {
-    localStorage.removeItem('authToken');
+    localStorage.removeItem('isAuthenticated');
+    localStorage.removeItem('username');
     setIsAuthenticated(false);
   };
 
+  if (loading) {
+    return <div>Loading...</div>;
+  }
+
   return (
-    <AuthContext.Provider value={{ isAuthenticated, isLoading, login, logout }}>
+    <AuthContext.Provider value={{ isAuthenticated, login, logout }}>
       {children}
     </AuthContext.Provider>
   );
-}
+};

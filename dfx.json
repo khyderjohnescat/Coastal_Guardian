@@ -2,7 +2,12 @@
   "canisters": {
     "Itonacoastal-guardian-backend": {
       "main": "src/Itonacoastal-guardian-backend/main.mo",
-      "type": "motoko"
+      "type": "motoko",
+      "source": [
+        "src/Itonacoastal-guardian-backend/main.mo",
+        "src/Itonacoastal-guardian-backend/auth.mo",
+        "src/Itonacoastal-guardian-backend/event_canister.mo"
+      ]
     },
     "Itonacoastal-guardian-frontend": {
       "dependencies": [
@@ -22,5 +27,8 @@
     }
   },
   "output_env_file": ".env",
-  "version": 1
+  "version": 1,
+  "output": {
+    "declarations": "src/declarations"
+  }
 }

@@ -5,6 +5,8 @@ import Dashboard from '../components/Dashboard';
 const Container = styled.div`
   padding: 2rem;
   text-align: center;
+  width: 100%;
+  max-width: 1900px;
 `;
 
 function Profile() {
